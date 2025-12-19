@@ -1,45 +1,92 @@
 @import "tailwindcss";
 
 @theme {
-  --color-reader-bg: #050505;
-  /* Deepest Black */
-  --color-reader-surface: #111111;
-  /* Charcoal */
-  --color-reader-card: #1a1a1a;
-  --color-reader-text: #f0f0f0;
-  --color-reader-secondary: #9ca3af;
-  --color-reader-accent: #E54B4B;
-  /* Coral Red from Design */
+  /* We reference CSS variables here so Tailwind picks them up as classes */
+  --color-publisher-bg: var(--publisher-bg);
+  --color-publisher-card: var(--publisher-card);
+  --color-publisher-text: var(--publisher-text);
+  --color-publisher-primary: var(--publisher-primary);
+  --color-publisher-primary-hover: var(--publisher-primary-hover);
+  --color-publisher-accent: var(--publisher-accent);
+  --color-publisher-muted: var(--publisher-muted);
 
-  /* Publisher Theme */
-  --color-publisher-bg: #f8fafc;
-  /* Slate 50 */
-  --color-publisher-card: #ffffff;
-  --color-publisher-text: #0f172a;
-  /* Slate 900 */
-  --color-publisher-primary: #4A6FA5;
-  /* Muted Steel Blue */
-  --color-publisher-primary-hover: #3B5998;
-  --color-publisher-accent: #E2E8F0;
-  /* Slate 200 */
-  --color-publisher-muted: #64748b;
-  /* Slate 500 */
+  --shadow-publisher-card: var(--shadow-publisher-card);
 
-  /* Glass System Tokens (Enhanced) */
-  --glass-bg: rgba(255, 255, 255, 0.25);
-  /* Much stronger fill */
+  --glass-bg: var(--glass-bg);
+  --glass-border: var(--glass-border);
+  --glass-border-light: var(--glass-border-light);
+  --glass-blur: var(--glass-blur);
+  --glass-shadow: var(--glass-shadow);
+  --glass-highlight: var(--glass-highlight);
+
+  /* Reader Variables (Now dynamic) */
+  --color-reader-bg: var(--reader-bg);
+  --color-reader-surface: var(--reader-surface);
+  --color-reader-card: var(--reader-card);
+  --color-reader-text: var(--reader-text);
+  --color-reader-secondary: var(--reader-secondary);
+  --color-reader-accent: var(--reader-accent);
+}
+
+/* CSS Variables Definition */
+:root {
+  /* --- LIGHT MODE DEFAULT (Day) --- */
+
+  /* Publisher (Light Default) */
+  --publisher-bg: #f8fafc;
+  --publisher-card: #ffffff;
+  --publisher-text: #0f172a;
+  --publisher-primary: #4A6FA5;
+  --publisher-primary-hover: #3B5998;
+  --publisher-accent: #E2E8F0;
+  --publisher-muted: #64748b;
+  --shadow-publisher-card: 0 4px 20px -2px rgba(0, 0, 0, 0.1);
+
+  /* Reader (Light Default) */
+  --reader-bg: #f8fafc;
+  --reader-surface: #ffffff;
+  --reader-card: #e2e8f0;
+  --reader-text: #0f172a;
+  --reader-secondary: #475569;
+  --reader-accent: #E54B4B;
+
+  /* Light Glass */
+  --glass-bg: rgba(255, 255, 255, 0.6);
   --glass-border: rgba(255, 255, 255, 0.4);
-  /* clearer definition */
-  --glass-border-light: rgba(0, 0, 0, 0.15);
-  --glass-blur: 24px;
-  /* Heavier blur for "liquid" feel */
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-  /* Deeper shadow */
-  --glass-highlight: linear-gradient(125deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 100%);
-  /* Sharper sheen */
+  --glass-border-light: rgba(0, 0, 0, 0.1);
+  --glass-blur: 16px;
+  --glass-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --glass-highlight: linear-gradient(125deg, rgba(255, 255, 255, 0.8) 0%, transparent 60%);
+}
 
-  --shadow-publisher-card: 0 4px 20px -2px rgba(0, 0, 0, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-  --radius-publisher-card: 1.25rem;
+.dark {
+  /* --- DARK MODE OVERRIDE (Night) --- */
+
+  /* Publisher (Dark Mode) */
+  --publisher-bg: #080808;
+  --publisher-card: #111111;
+  --publisher-text: #f1f5f9;
+  --publisher-primary: #60a5fa;
+  --publisher-primary-hover: #93c5fd;
+  --publisher-accent: #1e293b;
+  --publisher-muted: #94a3b8;
+  --shadow-publisher-card: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+
+  /* Reader (Dark Mode - Original Cinematic Look) */
+  --reader-bg: #050505;
+  --reader-surface: #111111;
+  --reader-card: #1a1a1a;
+  --reader-text: #f0f0f0;
+  --reader-secondary: #9ca3af;
+  --reader-accent: #E54B4B;
+
+  /* Dark Liquid Glass */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-border-light: rgba(255, 255, 255, 0.1);
+  --glass-blur: 40px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --glass-highlight: linear-gradient(125deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
 }
 
 @layer utilities {
@@ -63,7 +110,6 @@
     background-image: var(--glass-highlight);
   }
 }
-
 
 @utility shadow-publisher-card {
   box-shadow: var(--shadow-publisher-card);

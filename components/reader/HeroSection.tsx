@@ -48,7 +48,7 @@ export function HeroSection({ featuredStories = [] }: HeroSectionProps) {
     const activeStory = featuredStories[currentIndex];
 
     return (
-        <div className="relative w-full h-[95vh] min-h-[700px] bg-reader-bg overflow-hidden flex flex-col">
+        <div className="relative w-full h-[95vh] min-h-[700px] overflow-hidden flex flex-col">
 
             {/* Background Image Layer */}
             <div className="absolute inset-0 z-0">

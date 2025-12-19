@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Search, ChevronRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { GlassButton } from '@/components/ui/glass/GlassButton';
 import { GlassChip } from '@/components/ui/glass/GlassChip';
@@ -9,6 +10,20 @@ const CATEGORIES = ['News', 'Events', 'Savings', 'Jobs', 'Businesses'];
 
 export function SearchLocationBar() {
     const [isFocused, setIsFocused] = useState(false);
+    const [query, setQuery] = useState('');
+    const router = useRouter(); // Import this
+
+    const handleSearch = () => {
+        if (query.trim()) {
+            router.push(`/search?q=${encodeURIComponent(query)}`);
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    };
 
     return (
         <div className="w-full max-w-3xl mx-auto space-y-6">
@@ -21,7 +36,6 @@ export function SearchLocationBar() {
             >
                 {/* 
                    Combined Glass Pill 
-                   Using tokens via style for consistency with new glass system 
                 */}
                 <div
                     className="flex flex-col md:flex-row items-center rounded-2xl md:rounded-full p-2 shadow-2xl border transition-colors"
@@ -33,11 +47,12 @@ export function SearchLocationBar() {
                     }}
                 >
 
-                    {/* Location Selector - using GlassButton */}
+                    {/* Location Selector - Functional Link */}
                     <div className="w-full md:w-auto px-1">
                         <GlassButton
-                            variant="primary"  // Primary actually looks quite transparent in my definition (white/10)
+                            variant="primary"
                             size="sm"
+                            href="/search?type=location" // Placeholder navigation
                             className="w-full md:w-auto rounded-xl md:rounded-full justify-start md:justify-center border-0 bg-white/5 hover:bg-white/10"
                         >
                             <MapPin className="w-4 h-4 text-reader-secondary mr-2" />
@@ -49,12 +64,15 @@ export function SearchLocationBar() {
                     {/* Divider */}
                     <div className="hidden md:block w-[1px] h-8 bg-white/10 mx-2" />
 
-                    {/* Search Input - Transparent embedded */}
+                    {/* Search Input - Functional */}
                     <div className="flex-1 w-full relative">
                         <Search className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${isFocused ? 'text-white' : 'text-white/40'}`} />
                         <input
                             type="text"
                             placeholder="What are you interested in?"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            onKeyDown={handleKeyDown}
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
                             className="w-full bg-transparent border-none text-white placeholder:text-white/40 focus:ring-0 pl-12 pr-4 py-3 text-base md:text-lg font-medium outline-none"
@@ -62,7 +80,10 @@ export function SearchLocationBar() {
                     </div>
 
                     {/* Search Button (Mobile Only) */}
-                    <button className="md:hidden w-full mt-2 bg-reader-secondary text-reader-bg font-bold py-3 rounded-xl">
+                    <button
+                        onClick={handleSearch}
+                        className="md:hidden w-full mt-2 bg-reader-secondary text-reader-bg font-bold py-3 rounded-xl"
+                    >
                         Search
                     </button>
                 </div>

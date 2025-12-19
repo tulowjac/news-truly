@@ -17,27 +17,6 @@ export function MouseRipple() {
     const cy = useRef(0);
 
     useEffect(() => {
-        // Only active on Reader pages (assuming Reader is dark background)
-        // Adjust logic if needed, but for now we apply to all as per requirement "Reader experience only"
-        // The Layout wrapper handles scoping generally, but we can double check.
-
-        // Performance: Use requestAnimationFrame for smooth interpolation
-        const animate = () => {
-            // Linear interpolation (Lerp) for smoothness: 0.1 factor
-            // cx += (mx - cx) * 0.1
-            cx.current = cx.current + (mx.current - cx.current) * 0.08;
-            cy.current = cy.current + (my.current - cy.current) * 0.08;
-
-            if (rippleRef.current) {
-                rippleRef.current.style.setProperty('--rx', `${cx.current}px`);
-                rippleRef.current.style.setProperty('--ry', `${cy.current}px`);
-            }
-
-            requestRef.current = requestAnimationFrame(animate);
-        };
-
-        requestRef.current = requestAnimationFrame(animate);
-
         const handleMouseMove = (e: MouseEvent) => {
             mx.current = e.clientX;
             my.current = e.clientY;
@@ -45,33 +24,73 @@ export function MouseRipple() {
 
         window.addEventListener('mousemove', handleMouseMove);
 
+        // Initialize center screen
+        mx.current = window.innerWidth / 2;
+        my.current = window.innerHeight / 2;
+        cx.current = window.innerWidth / 2;
+        cy.current = window.innerHeight / 2;
+
+        const animate = () => {
+            // Slower, "liquid" delay (0.04 instead of 0.08)
+            cx.current = cx.current + (mx.current - cx.current) * 0.05;
+            cy.current = cy.current + (my.current - cy.current) * 0.05;
+
+            if (rippleRef.current) {
+                // Move the center of the gradient
+                rippleRef.current.style.setProperty('--rx', `${cx.current}px`);
+                rippleRef.current.style.setProperty('--ry', `${cy.current}px`);
+
+                // Minor parallax for the container itself to feel like "page movement"
+                // Move opposite to mouse slightly (-0.02)
+                const px = (window.innerWidth / 2 - cx.current) * 0.02;
+                const py = (window.innerHeight / 2 - cy.current) * 0.02;
+                rippleRef.current.style.transform = `translate(${px}px, ${py}px)`;
+            }
+
+            requestRef.current = requestAnimationFrame(animate);
+        };
+
+        requestRef.current = requestAnimationFrame(animate);
+
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
             if (requestRef.current) cancelAnimationFrame(requestRef.current);
         };
     }, []);
 
-    // Do not render on non-Reader pages if checking pathname (optional safety)
-    // Assuming this component is mounted in (reader)/layout.tsx, so it's safe.
-
     return (
         <div
             ref={rippleRef}
             className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
             style={{
-                // Default start off-screen
-                '--rx': '-500px',
-                '--ry': '-500px'
+                '--rx': '50%',
+                '--ry': '50%',
+                transition: 'transform 0.1s linear' // smooth parallax lag
             } as React.CSSProperties}
         >
+            {/* Main Glow Orb */}
             <div
-                className="absolute w-[800px] h-[800px] rounded-full blur-[100px] opacity-[0.08] transition-opacity duration-1000"
+                className="absolute rounded-full blur-[100px] opacity-[0.5] mix-blend-screen will-change-transform"
                 style={{
-                    background: 'radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%)',
-                    left: 0,
-                    top: 0,
+                    top: 0, left: 0,
+                    width: '1000px',
+                    height: '1000px',
+                    // Cool cyan-blue liquid gradient
+                    background: 'radial-gradient(circle, rgba(200, 230, 255, 0.15) 0%, rgba(50, 100, 255, 0.05) 40%, transparent 70%)',
                     transform: 'translate(calc(var(--rx) - 50%), calc(var(--ry) - 50%))',
-                    willChange: 'transform',
+                }}
+            />
+
+            {/* Secondary Follower Orb (For liquid trail effect) */}
+            <div
+                className="absolute rounded-full blur-[120px] opacity-[0.3] mix-blend-screen will-change-transform"
+                style={{
+                    top: 0, left: 0,
+                    width: '1400px',
+                    height: '1400px',
+                    background: 'radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 60%)',
+                    // Lag it by offsetting using same vars but different scale or just wider
+                    transform: 'translate(calc(var(--rx) - 50%), calc(var(--ry) - 50%)) scale(1.1)',
                 }}
             />
         </div>

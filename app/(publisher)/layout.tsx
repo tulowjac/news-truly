@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link"; // Use Next.js Link for optimized navigation
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function PublisherLayout({
     children,
@@ -35,8 +36,12 @@ export default function PublisherLayout({
                     <SidebarLink href="/publisher/billing" label="Billing" icon={<CreditCardIcon />} />
                 </nav>
 
-                <div className="p-4 border-t border-publisher-accent bg-publisher-card">
-                    <div className="flex items-center gap-3 mb-4">
+                <div className="p-4 border-t border-publisher-accent bg-publisher-card space-y-4">
+                    <div className="flex justify-start">
+                        <ThemeToggle />
+                    </div>
+
+                    <div className="flex items-center gap-3">
                         <div className="h-10 w-10 rounded-full bg-publisher-accent border border-publisher-accent shadow-sm" />
                         <div>
                             <p className="text-sm font-medium text-publisher-text">Jane Publisher</p>

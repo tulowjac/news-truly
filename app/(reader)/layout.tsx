@@ -1,6 +1,7 @@
 import React from "react";
 
 import { MouseRipple } from '@/components/reader/MouseRipple';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
 export default function ReaderLayout({
     children,
@@ -14,10 +15,11 @@ export default function ReaderLayout({
             <header className="p-4 border-b border-white/10 sticky top-0 bg-reader-bg/80 backdrop-blur z-50">
                 <div className="container mx-auto flex justify-between items-center">
                     <h1 className="text-xl font-serif font-bold tracking-tight">NewsTruly</h1>
-                    <nav className="space-x-4 text-sm font-medium text-reader-secondary">
+                    <nav className="flex items-center space-x-4 text-sm font-medium text-reader-secondary">
                         <a href="/" className="hover:text-white transition-colors">Home</a>
                         <a href="/search" className="hover:text-white transition-colors">Search</a>
                         <a href="/my-news" className="hover:text-white transition-colors">My News</a>
+                        <ThemeToggle />
                         <a href="/publisher/dashboard" className="text-xs border border-white/20 px-2 py-1 rounded hover:bg-white/10">Publisher Portal</a>
                     </nav>
                 </div>
