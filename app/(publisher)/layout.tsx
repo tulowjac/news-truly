@@ -25,7 +25,7 @@ export default function PublisherLayout({
                     <div className="h-8 w-8 bg-publisher-primary rounded-lg flex items-center justify-center text-white font-serif font-bold text-lg shadow-sm">
                         N
                     </div>
-                    <h1 className="text-xl font-serif font-bold text-slate-800">Publisher</h1>
+                    <h1 className="text-xl font-serif font-bold text-publisher-text">Publisher</h1>
                 </div>
 
                 <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
@@ -35,15 +35,15 @@ export default function PublisherLayout({
                     <SidebarLink href="/publisher/billing" label="Billing" icon={<CreditCardIcon />} />
                 </nav>
 
-                <div className="p-4 border-t border-publisher-accent bg-slate-50/50">
+                <div className="p-4 border-t border-publisher-accent bg-publisher-card">
                     <div className="flex items-center gap-3 mb-4">
-                        <div className="h-10 w-10 rounded-full bg-slate-200 border border-white shadow-sm" />
+                        <div className="h-10 w-10 rounded-full bg-publisher-accent border border-publisher-accent shadow-sm" />
                         <div>
-                            <p className="text-sm font-medium text-slate-900">Jane Publisher</p>
+                            <p className="text-sm font-medium text-publisher-text">Jane Publisher</p>
                             <p className="text-xs text-publisher-muted">Standard Plan</p>
                         </div>
                     </div>
-                    <Link href="/" className="block w-full py-2 px-4 bg-slate-100 text-slate-600 text-sm font-medium rounded-lg hover:bg-slate-200 hover:text-slate-900 transition-colors text-center">
+                    <Link href="/" className="block w-full py-2 px-4 bg-publisher-accent/10 text-publisher-muted text-sm font-medium rounded-lg hover:bg-publisher-accent/20 hover:text-publisher-text transition-colors text-center">
                         &larr; Back to Reader App
                     </Link>
                 </div>
@@ -84,9 +84,9 @@ function SidebarLink({ href, label, icon }: { href: string; label: string; icon:
     return (
         <Link
             href={href}
-            className="group flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-600 rounded-lg transition-all duration-200 hover:bg-slate-50 hover:text-slate-900 active:bg-publisher-primary/5 active:text-publisher-primary focus:outline-none focus:ring-2 focus:ring-publisher-primary/20"
+            className="group flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-publisher-muted rounded-lg transition-all duration-200 hover:bg-publisher-accent/10 hover:text-publisher-text active:bg-publisher-primary/10 active:text-publisher-primary focus:outline-none focus:ring-2 focus:ring-publisher-primary/20"
         >
-            <span className="text-slate-400 group-hover:text-publisher-primary transition-colors duration-200">
+            <span className="text-publisher-muted/70 group-hover:text-publisher-primary transition-colors duration-200">
                 {icon}
             </span>
             {label}

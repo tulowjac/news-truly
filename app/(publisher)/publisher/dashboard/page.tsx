@@ -1,7 +1,7 @@
 import React from "react";
 import { MOCK_METRICS, MOCK_POSTS } from "@/lib/mock-data";
 import Link from "next/link";
-import { GlassButton } from "@/components/ui/glass/GlassButton";
+// import { GlassButton } from "@/components/ui/glass/GlassButton"; // Removing potential build error source
 
 export default function DashboardPage() {
     return (
@@ -9,15 +9,16 @@ export default function DashboardPage() {
             {/* Header / Welcome */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-serif font-bold text-slate-900">Dashboard</h1>
-                    <p className="text-slate-500 mt-1">Welcome back to the NewsTruly Publisher Portal.</p>
+                    <h1 className="text-3xl font-serif font-bold text-publisher-text">Dashboard</h1>
+                    <p className="text-publisher-muted mt-1">Welcome back to the NewsTruly Publisher Portal.</p>
                 </div>
 
-                <GlassButton variant="publisher" asChild>
-                    <Link href="/publisher/create">
-                        + Create New
-                    </Link>
-                </GlassButton>
+                <Link
+                    href="/publisher/create"
+                    className="inline-flex items-center justify-center px-6 py-2 bg-publisher-primary text-white rounded-xl font-medium hover:bg-publisher-primary-hover transition-colors shadow-sm active:scale-95"
+                >
+                    + Create New
+                </Link>
             </div>
 
             {/* Metrics Row */}
@@ -49,9 +50,9 @@ export default function DashboardPage() {
                 </div>
                 <div className="divide-y divide-publisher-accent">
                     {MOCK_POSTS.slice(0, 3).map((post) => (
-                        <div key={post.id} className="px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
+                        <div key={post.id} className="px-6 py-4 flex items-center justify-between hover:bg-publisher-accent/10 transition-colors">
                             <div>
-                                <h3 className="font-medium text-slate-900">{post.title}</h3>
+                                <h3 className="font-medium text-publisher-text">{post.title}</h3>
                                 <div className="text-sm text-publisher-muted flex items-center gap-2 mt-1">
                                     <span className="capitalize">{post.type}</span>
                                     <span>•</span>
@@ -79,7 +80,7 @@ function MetricCard({ label, value, subtext }: { label: string; value: string; s
     return (
         <div className="bg-publisher-card p-6 rounded-publisher-card border border-publisher-accent shadow-publisher-card flex flex-col gap-2 transition-transform hover:-translate-y-0.5 duration-300">
             <h3 className="text-sm font-medium text-publisher-muted">{label}</h3>
-            <p className="text-3xl font-bold text-slate-900">{value}</p>
+            <p className="text-3xl font-bold text-publisher-text">{value}</p>
             <p className="text-xs">{subtext}</p>
         </div>
     );
